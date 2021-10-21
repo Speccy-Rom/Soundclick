@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+pillow = "*"
+drf_yasg = "*"
+
+
+[dev-packages]
+flake8 = "*"
+wemake-python-styleguide = "*"
+isort = "*"
+black = "==21.8b0"
+
+[requires]
+python_version = "3.9"
