@@ -2,5 +2,6 @@ from django.urls import path
 from .endpoint import views, auth_views
 
 urlpatterns = [
-    path("", auth_views.login_google),
+    path("google/", auth_views.google_auth),
+    path("", auth_views.google_login),
 ]

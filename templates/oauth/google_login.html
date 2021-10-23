@@ -10,28 +10,39 @@
 <div id="my-signin"></div>
 
 <script>
-    
-    
+
+
     function onSuccess(googleUser) {
         let profile = googleUser.getBasicProfile()
         console.log('Email: ' + profile.getEmail())
         let token = googleUser.getAuthResponse().id_token
         console.log('Token: ' + token)
     }
-    
+
+    fetch('http://localhost:8080/api/v1/auth/google/',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json;charset=UTF-8'},
+        body: JSON.stringify({
+            email: profile.getEmail(),
+            token: token
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>console.log('ID: ' +  data.user_id + '\nToken: ' + data.access_token))
+
     function onFailure(error) {
         console.log(error)
     }
-    
+
     function renderButton() {
         gapi.signin2.render("my-signin", {
-            'scope': 'profile email',
-            'width': 240,
-            'height': 50,
-            'longtitle': true,
-            'theme': 'dark',
-            'onsuccess': onSuccess,
-            'onfailure': onFailure
+            scope: "profile email",
+            width: 240,
+            height: 50,
+            longtitle: true,
+            theme: "dark",
+            onsuccess: onSuccess,
+            onfailure: onFailure
         });
     }
 </script>

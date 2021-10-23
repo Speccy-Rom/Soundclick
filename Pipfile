@@ -8,7 +8,9 @@ django = "*"
 djangorestframework = "*"
 pillow = "*"
 drf_yasg = "*"
-
+required = "*"
+google-auth = "*"
+pyjwt = "*"
 
 [dev-packages]
 flake8 = "*"
