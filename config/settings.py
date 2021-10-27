@@ -116,3 +116,24 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 GOOGLE_CLIENT_ID = '357142623930-38pjllvc74r9oadkaijppnerc0p8kiti.apps.googleusercontent.com'
+
+
+REST_FRAMEWORK = {
+    # Используйте стандартные Django  `django.contrib.auth` разрешения,
+    # или разрешите доступ только для чтения для неаутентифицированных пользователей.
+    'DEFAULT-AUTHENTICATION_CLASSES': ('src.oauth.services.auth_backend.AuthBackend',),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ]
+}
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITION': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    }
+}
