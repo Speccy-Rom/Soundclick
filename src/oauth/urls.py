@@ -1,10 +1,9 @@
 from django.urls import path
 
-from .endpoint import views, auth_views
+from .endpoint import auth_views, views
 
 urlpatterns = [
-    path('me/', views.UserView.as_view({'get': 'retrieve', 'put': 'update'})),
-
+    path("me/", views.UserView.as_view({"get": "retrieve", "put": "update"})),
     path("google/", auth_views.google_auth),
     path("spotify-callback/", auth_views.spotify_auth),
     path("spotify-login/", auth_views.spotify_login),

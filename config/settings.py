@@ -115,27 +115,27 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
-GOOGLE_CLIENT_ID = '357142623930-38pjllvc74r9oadkaijppnerc0p8kiti.apps.googleusercontent.com'
-SPOTIFY_CLIENT_ID = '58cbc994bc604b53b7c82ffee99c8742'
-SPOTIFY_SECRET = '7ccd13237a6b467988c0374dc1c2696b'
+GOOGLE_CLIENT_ID = (
+    "357142623930-38pjllvc74r9oadkaijppnerc0p8kiti.apps.googleusercontent.com"
+)
+SPOTIFY_CLIENT_ID = "58cbc994bc604b53b7c82ffee99c8742"
+SPOTIFY_SECRET = "7ccd13237a6b467988c0374dc1c2696b"
 
 
 REST_FRAMEWORK = {
     # Используйте стандартные Django  `django.contrib.auth` разрешения,
     # или разрешите доступ только для чтения для неаутентифицированных пользователей.
-    'DEFAULT-AUTHENTICATION_CLASSES': ('src.oauth.services.auth_backend.AuthBackend',),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ]
+    "DEFAULT-AUTHENTICATION_CLASSES": ("src.oauth.services.auth_backend.AuthBackend",),
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
 }
 
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITION': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header',
+    "SECURITY_DEFINITION": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
         }
     }
 }

@@ -17,7 +17,10 @@ class AuthUser(models.Model):
         upload_to=get_path_upload_avatar,
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image],
+        validators=[
+            FileExtensionValidator(allowed_extensions=["jpg"]),
+            validate_size_image,
+        ],
     )
 
     @property

@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
 import jwt
 from django.conf import settings
@@ -11,7 +11,7 @@ def create_token(user_id: int) -> dict:
     return {
         "user_id": user_id,
         "access_token": create_access_token(
-            data={'user_id': user_id}, expires_delta=access_token_expires
+            data={"user_id": user_id}, expires_delta=access_token_expires
         ),
         "token_type": "Token",
     }
@@ -25,8 +25,8 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
         expires = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({'exp': expire, 'sub': 'access'})
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    to_encode.update({"exp": expire, "sub": "access"})
+    encoded_jwt = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
     return encoded_jwt
-
-
