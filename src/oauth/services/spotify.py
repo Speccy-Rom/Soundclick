@@ -55,4 +55,4 @@ def spotify_auth(code: str):
         user, _ = AuthUser.objects.get_or_create(email=email)
         return base_auth.create_token(user.id)
     else:
-        raise AuthenticationFailed(code=403, detail="Bad data Google")
+        raise AuthenticationFailed(code=403, detail="Bad data Spotify")
