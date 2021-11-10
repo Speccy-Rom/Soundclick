@@ -40,7 +40,7 @@ class Album(models.Model):
         blank=True,
         null=True,
         validators=[
-            [FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image]
+            FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image
         ],
     )
 
@@ -57,7 +57,7 @@ class Track(models.Model):
     album = models.ForeignKey(Album, on_delete=models.SET_NULL, blank=True, null=True)
     file = models.FileField(
         upload_to=get_path_upload_track,
-        validators=[[FileExtensionValidator(allowed_extensions=["mp3", "wav"])]],
+        validators=[FileExtensionValidator(allowed_extensions=["mp3", "wav"])],
     )
     created_at = models.DateTimeField(auto_now_add=True)
     plays_count = models.PositiveIntegerField(default=0)
@@ -86,6 +86,6 @@ class Playlist(models.Model):
         blank=True,
         null=True,
         validators=[
-            [FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image]
+            FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image
         ],
     )

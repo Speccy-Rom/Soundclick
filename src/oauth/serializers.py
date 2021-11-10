@@ -22,7 +22,16 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.AuthUser
-        fields = ("id", "avatar", "country", "city", "bio", "display_name", "email", "social_link")
+        fields = (
+            "id",
+            "avatar",
+            "country",
+            "city",
+            "bio",
+            "display_name",
+            "email",
+            "social_link",
+        )
 
 
 class GoogleAuthSerializer(serializers.Serializer):

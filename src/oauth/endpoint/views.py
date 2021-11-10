@@ -1,7 +1,7 @@
 from rest_framework import parsers, permissions, viewsets
 
 from src.base.permissions import IsAuthor
-from src.oauth import serializers, models
+from src.oauth import models, serializers
 
 
 class UserView(viewsets.ModelViewSet):
@@ -21,7 +21,7 @@ class UserView(viewsets.ModelViewSet):
 class AuthorsView(viewsets.ReadOnlyModelViewSet):
     """Вывод списка авторов"""
 
-    queryset = models.AuthUser.objects.all().prefetch_related('social_link')
+    queryset = models.AuthUser.objects.all().prefetch_related("social_link")
     serializer_class = serializers.AuthorSerializer
 
 
