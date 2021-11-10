@@ -17,6 +17,7 @@ flake8 = "*"
 wemake-python-styleguide = "*"
 isort = "*"
 black = "==21.8b0"
+django-extensions = "*"
 
 [requires]
 python_version = "3.9"
