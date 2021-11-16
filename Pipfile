@@ -11,6 +11,8 @@ drf_yasg = "*"
 required = "*"
 google-auth = "*"
 pyjwt = "*"
+base = "*"
+private = "*"
 
 [dev-packages]
 flake8 = "*"
