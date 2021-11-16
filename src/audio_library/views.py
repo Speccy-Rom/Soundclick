@@ -1,4 +1,3 @@
-import cover as cover
 from rest_framework import generics, viewsets, parsers
 
 from . import models, serializers
@@ -33,6 +32,34 @@ class AlbumViews(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return models.Album.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        delete_old_file(instance.cover.path)
+        instance.delete()
+
+
+class PublicAlbumViews(generics.ListAPIView):
+    """Список публичных альбомов автора."""
+    serializer_class = serializers.AlbumSerializer
+
+    def get_queryset(self):
+        return models.Album.objects.filter(user__id=self.kwargs.get('pk'), private=False)
+
+
+class TrackViews(MixedSerializer, viewsets.ModelViewSet):
+    """ CRUD треков."""
+    parser_classes = (parsers.MultiPartParser,)
+    permission_classes = [IsAuthor]
+    serializer_class = serializers.CreateAuthorTrackSerializer
+    serializer_classes_by_action = {
+        'list': serializers.AuthorTrackSerializer
+    }
+
+    def get_queryset(self):
+        return models.Track.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

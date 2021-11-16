@@ -11,4 +11,6 @@ urlpatterns = [
     path("album/", views.AlbumViews.as_view({'get': 'list', 'post': 'create'})),
     path("album/<int:pk>/", views.AlbumViews.as_view({'put': 'update', 'delete': 'destroy'})),
 
+    path('author-album/<int:pk>/', views.PublicAlbumViews.as_view()),
+
 ]
