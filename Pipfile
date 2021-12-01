@@ -13,6 +13,7 @@ google-auth = "*"
 pyjwt = "*"
 base = "*"
 private = "*"
+self = "*"
 
 [dev-packages]
 flake8 = "*"

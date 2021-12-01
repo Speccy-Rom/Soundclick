@@ -1,6 +1,7 @@
 from rest_framework import generics, viewsets, parsers
 
 from . import models, serializers
+from ..base.classes import MixedSerializer
 from ..base.permissions import IsAuthor
 from ..base.services import delete_old_file
 
@@ -56,6 +57,27 @@ class TrackViews(MixedSerializer, viewsets.ModelViewSet):
     serializer_class = serializers.CreateAuthorTrackSerializer
     serializer_classes_by_action = {
         'list': serializers.AuthorTrackSerializer
+    }
+
+    def get_queryset(self):
+        return models.Track.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        delete_old_file(instance.cover.path)
+        instance.delete()
+
+
+class PlaylistView(MixedSerializer, viewsets.ModelViewSet):
+    """CRUD плейлистов пользователя."""
+
+    parser_classes = (parsers.MultiPartParser,)
+    permission_classes = [IsAuthor]
+    serializer_class = serializers.CreatePlayListSerializer
+    serializer_classes_by_action = {
+        'list': serializers.PlayListSerializer
     }
 
     def get_queryset(self):
