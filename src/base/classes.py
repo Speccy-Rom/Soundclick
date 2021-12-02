@@ -1,3 +1,5 @@
+from rest_framework.pagination import PageNumberPagination
+
 class MixedSerializer:
     """Serializer action's mixin"""
 
@@ -8,3 +10,8 @@ class MixedSerializer:
             serializer_class = self.get_serializer_class()
         kwargs.setdefault('contex', self.get_serializer_context())
         return serializer_class(*args, **kwargs)
+
+
+class Pagination(PageNumberPagination):
+    page_size = 20
+    page_query_param = 'page_size'

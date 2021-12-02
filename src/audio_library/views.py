@@ -1,7 +1,7 @@
 from rest_framework import generics, viewsets, parsers
 
 from . import models, serializers
-from ..base.classes import MixedSerializer
+from ..base.classes import MixedSerializer, Pagination
 from ..base.permissions import IsAuthor
 from ..base.services import delete_old_file
 
@@ -52,6 +52,7 @@ class PublicAlbumViews(generics.ListAPIView):
 
 class TrackViews(MixedSerializer, viewsets.ModelViewSet):
     """ CRUD треков."""
+
     parser_classes = (parsers.MultiPartParser,)
     permission_classes = [IsAuthor]
     serializer_class = serializers.CreateAuthorTrackSerializer
@@ -89,3 +90,19 @@ class PlaylistView(MixedSerializer, viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         delete_old_file(instance.cover.path)
         instance.delete()
+
+
+class TrackListView(generics.ListAPIView):
+    """Список всех треков."""
+    queryset = models.Track.objects.all()
+    serializer_class = serializers.AuthorTrackSerializer
+    pagination_class = Pagination
+
+
+class AuthorTrackListView(generics.ListAPIView):
+    """Список всех треков автора."""
+    serializer_class = serializers.AuthorTrackSerializer
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        return models.Track.objects.filter(user__id=self.kwargs.get('pk'))
