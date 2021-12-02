@@ -1,12 +1,9 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
-from src.base.services import (
-    get_path_upload_cover_album,
-    get_path_upload_track,
-    validate_size_image,
-    get_path_upload_playlist,
-)
+from src.base.services import (get_path_upload_cover_album,
+                               get_path_upload_playlist, get_path_upload_track,
+                               validate_size_image)
 from src.oauth.models import AuthUser
 
 
@@ -40,7 +37,8 @@ class Album(models.Model):
         blank=True,
         null=True,
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image
+            FileExtensionValidator(allowed_extensions=["jpg"]),
+            validate_size_image,
         ],
     )
 
@@ -62,30 +60,39 @@ class Track(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     plays_count = models.PositiveIntegerField(default=0)
     download = models.PositiveIntegerField(default=0)
-    user_of_likes = models.ManyToManyField(AuthUser, related_name='likes_of_tracks'),
+    user_of_likes = (models.ManyToManyField(AuthUser, related_name="likes_of_tracks"),)
 
     def __str__(self):
-        return f'{self.user} - {self.title}'
+        return f"{self.user} - {self.title}"
 
 
 class Comment(models.Model):
     """Модель коментариев к треку."""
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name='comments')
-    track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='track_comments')
+
+    user = models.ForeignKey(
+        AuthUser, on_delete=models.CASCADE, related_name="comments"
+    )
+    track = models.ForeignKey(
+        Track, on_delete=models.CASCADE, related_name="track_comments"
+    )
     text = models.TextField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Playlist(models.Model):
     """Модель плейлистов пользователя."""
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, related_name='play_lists')
+
+    user = models.ForeignKey(
+        AuthUser, on_delete=models.CASCADE, related_name="play_lists"
+    )
     title = models.CharField(max_length=50)
-    tracks = models.ManyToManyField(Track, related_name='track_play_lists')
+    tracks = models.ManyToManyField(Track, related_name="track_play_lists")
     cover = models.ImageField(
         upload_to=get_path_upload_playlist,
         blank=True,
         null=True,
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg"]), validate_size_image
+            FileExtensionValidator(allowed_extensions=["jpg"]),
+            validate_size_image,
         ],
     )

@@ -11,19 +11,19 @@ class BaseSerializer(serializers.ModelSerializer):
 class GenreSerializer(BaseSerializer):
     class Meta:
         model = models.Genre
-        fields = ('id', 'name')
+        fields = ("id", "name")
 
 
 class LicenseSerializer(BaseSerializer):
     class Meta:
         model = models.License
-        fields = ('id', 'text')
+        fields = ("id", "text")
 
 
 class AlbumSerializer(BaseSerializer):
     class Meta:
         model = models.Album
-        fields = ('id', 'name', 'description', 'cover', 'private')
+        fields = ("id", "name", "description", "cover", "private")
 
         def update(self, instance, validated_data):
             delete_old_file(instance.cover.path)
@@ -37,16 +37,16 @@ class CreateAuthorTrackSerializer(BaseSerializer):
     class Meta:
         model = models.Track
         fields = (
-            'id',
-            'title',
-            'license',
-            'genre',
-            'album',
-            'link_of_author',
-            'file',
-            'created_at',
-            'plays_count',
-            'download',
+            "id",
+            "title",
+            "license",
+            "genre",
+            "album",
+            "link_of_author",
+            "file",
+            "created_at",
+            "plays_count",
+            "download",
         )
 
     def update(self, instance, validated_data):
@@ -63,7 +63,7 @@ class AuthorTrackSerializer(CreateAuthorTrackSerializer):
 class CreatePlayListSerializer(BaseSerializer):
     class Meta:
         model = models.Playlist
-        fields = ('id', 'title', 'cover', 'tracks')
+        fields = ("id", "title", "cover", "tracks")
 
     def update(self, instance, validated_data):
         delete_old_file(instance.cover.path)
