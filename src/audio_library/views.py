@@ -125,3 +125,19 @@ class StreamingFileView(views.APIView):
             return FileResponse(open(track.file.path, "rb"), filename=track.file.name)
         else:
             return Http404
+
+
+class DownLoadTrackView(views.APIView):
+    """Скачивание трека"""
+
+    def set_download(self):
+        self.track.download += 1
+        self.track.save()
+
+    def get(self, request, pk):
+        self.track = get_object_or_404(models.Track, id=pk)
+        if os.path.exists(self.track.file.path):
+            self.set_download()
+            return FileResponse(open(self.track.file.path, "rb"), filename=self.track.file.name, as_attachment=True)
+        else:
+            return Http404
