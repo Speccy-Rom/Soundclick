@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from src.oauth import models
+from . import models
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AuthUser
-        fields = ("avatar", "country", "city", "bio", "display_name", "email")
+        fields = ("avatar", "country", "city", "bio", "display_name")
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class SocialLinkSerializer(serializers.ModelSerializer):
 
 
 class AuthorSerializer(serializers.ModelSerializer):
-    social_link = SocialLinkSerializer(many=True)
+    social_links = SocialLinkSerializer(many=True)
 
     class Meta:
         model = models.AuthUser
@@ -29,13 +29,12 @@ class AuthorSerializer(serializers.ModelSerializer):
             "city",
             "bio",
             "display_name",
-            "email",
-            "social_link",
+            "social_links",
         )
 
 
-class GoogleAuthSerializer(serializers.Serializer):
-    """сериализация данных от google"""
+class GoogleAuth(serializers.Serializer):
+    """Сериализация данных от Google"""
 
     email = serializers.EmailField()
     token = serializers.CharField()

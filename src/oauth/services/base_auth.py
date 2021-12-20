@@ -5,8 +5,7 @@ from django.conf import settings
 
 
 def create_token(user_id: int) -> dict:
-    """Создание Token"""
-
+    """Создание токена"""
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "user_id": user_id,
@@ -18,11 +17,10 @@ def create_token(user_id: int) -> dict:
 
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
-    """Создание create_access_token"""
-
+    """Создание access token"""
     to_encode = data.copy()
     if expires_delta is not None:
-        expires = datetime.utcnow() + expires_delta
+        expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire, "sub": "access"})

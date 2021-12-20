@@ -9,7 +9,7 @@ class MixedSerializer:
             serializer_class = self.serializer_classes_by_action[self.action]
         except KeyError:
             serializer_class = self.get_serializer_class()
-        kwargs.setdefault("contex", self.get_serializer_context())
+        kwargs.setdefault("context", self.get_serializer_context())
         return serializer_class(*args, **kwargs)
 
 

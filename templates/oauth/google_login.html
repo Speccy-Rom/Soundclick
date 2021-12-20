@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="google-signin-client_id"
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="google-signin-client_id"
           content="357142623930-38pjllvc74r9oadkaijppnerc0p8kiti.apps.googleusercontent.com">
 </head>
 <body>
 <div id="my-signin"></div>
 
-<script>
 
+<script>
 
     function onSuccess(googleUser) {
         let profile = googleUser.getBasicProfile()
         console.log('Email: ' + profile.getEmail())
         let token = googleUser.getAuthResponse().id_token
         console.log('Token: ' + token)
-    }
 
-    fetch('http://localhost:8080/api/v1/auth/google/',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json;charset=UTF-8'},
-        body: JSON.stringify({
-            email: profile.getEmail(),
-            token: token
+        fetch('http://localhost/api/v1/auth/google/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=UTF-8'},
+            body: JSON.stringify({
+                email: profile.getEmail(),
+                token: token
+            })
         })
-    })
-    .then(res=>res.json())
-    .then(data=>console.log('ID: ' +  data.user_id + '\nToken: ' + data.access_token))
+        .then(res => res.json())
+        .then(data => console.log('ID: ' + data.user_id + '\nToken: ' + data.access_token))
+    }
 
     function onFailure(error) {
         console.log(error)
     }
 
     function renderButton() {
-        gapi.signin2.render("my-signin", {
-            scope: "profile email",
-            width: 240,
-            height: 50,
-            longtitle: true,
-            theme: "dark",
-            onsuccess: onSuccess,
-            onfailure: onFailure
+        gapi.signin2.render('my-signin', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
         });
     }
 </script>

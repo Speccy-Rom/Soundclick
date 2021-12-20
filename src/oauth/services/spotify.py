@@ -18,7 +18,7 @@ def get_spotify_jwt(code: str) -> Optional[str]:
     data = {
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "http://localhost:8000/spotify-callable",
+        "redirect_uri": "http://localhost:8000/spotify-callback",
     }
     headers = {"Authorization": f'Basic {basic.decode("ascii")}'}
 
