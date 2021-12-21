@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "rest_framework",
+    "django_filters",
+    "corsheaders",
     "drf_yasg",
     "src.oauth",
     "src.audio_library",
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -127,17 +130,21 @@ SPOTIFY_SECRET = "7ccd13237a6b467988c0374dc1c2696b"
 REST_FRAMEWORK = {
     # Используйте стандартные Django  `django.contrib.auth` разрешения,
     # или разрешите доступ только для чтения для неаутентифицированных пользователей.
-    "DEFAULT-AUTHENTICATION_CLASSES": ("src.oauth.services.auth_backend.AuthBackend",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("src.oauth.services.auth_backend.AuthBackend",),
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 
 SWAGGER_SETTINGS = {
-    "SECURITY_DEFINITION": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-        }
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1",
+]
