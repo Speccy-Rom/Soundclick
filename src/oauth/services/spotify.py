@@ -26,11 +26,10 @@ def get_spotify_jwt(code: str) -> Optional[str]:
         url,
         data=data,
     )
-    if res.status_code == 200:
-        r = res.json()
-        return r.get("access_token")
-    else:
+    if res.status_code != 200:
         return None
+    r = res.json()
+    return r.get("access_token")
 
 
 def get_spotify_user(token: str) -> str:
@@ -43,16 +42,12 @@ def get_spotify_user(token: str) -> str:
 
 def get_spotify_email(code: str) -> Optional[str]:
     _token = get_spotify_jwt(code)
-    if _token is not None:
-        return get_spotify_user(_token)
-    else:
-        return None
+    return get_spotify_user(_token) if _token is not None else None
 
 
 def spotify_auth(code: str):
     email = get_spotify_email(code)
-    if email is not None:
-        user, _ = AuthUser.objects.get_or_create(email=email)
-        return base_auth.create_token(user.id)
-    else:
+    if email is None:
         raise AuthenticationFailed(code=403, detail="Bad data Spotify")
+    user, _ = AuthUser.objects.get_or_create(email=email)
+    return base_auth.create_token(user.id)
